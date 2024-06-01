@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Instructions.cpp" />
+    <ClCompile Include="LossScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PauseScreen.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Instructions.h" />
+    <ClInclude Include="LossScreen.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PauseScreen.h" />
   </ItemGroup>

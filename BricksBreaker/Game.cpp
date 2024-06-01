@@ -104,6 +104,14 @@ void Game::update(sf::Time deltaTime) {
 		isPaused = false;
 		return;
 	}
+	if (isGameOver)
+	{
+		gameWindow.clear();
+		gameWindow.close();
+		LossScreen lossScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
+		lossScreen.run(gameWindow, isGameOver);
+		return;
+	}
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (movingLeft) {
@@ -149,9 +157,6 @@ void Game::update(sf::Time deltaTime) {
 	}
 
 	if (ball.getPosition().y > gameWindow.getSize().y) {
-		gameWindow.close();
-		Menu menu(gameWindow.getPosition().x, gameWindow.getPosition().y);
-		menu.run();
 		isGameOver = true;
 	}
 }

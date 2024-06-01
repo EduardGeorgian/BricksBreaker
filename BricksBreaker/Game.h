@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "PauseScreen.h"
+#include "LossScreen.h"
 
 class Game {
 private:
