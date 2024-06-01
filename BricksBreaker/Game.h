@@ -12,9 +12,28 @@ private:
 	void initWindow();
 	void update(sf::Time deltaTime);
 	void render();
+
+
+	sf::RectangleShape paddle;
+	sf::CircleShape ball;
+	sf::Vector2f ballVelocity;
+	float paddleSpeed;
+	bool movingLeft;
+	bool movingRight;
+	bool isPaused;
+	bool isGameOver;
+	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+
+	struct Brick {
+		sf::RectangleShape shape;
+		bool isDestroyed = false;
+	};
+	std::vector<Brick> bricks;
+
 public:
-	sf::RenderWindow& getWindow();
+	
 	Game();
 	void Run();
 	void Close();
+	sf::RenderWindow& getWindow();
 };

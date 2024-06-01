@@ -84,14 +84,12 @@ void Menu::run()
 				else if (event.key.code == sf::Keyboard::Return) {
 					int selectedItem = menu.GetPressedItem();
 					if (selectedItem == 0) {
-						Game game;
 						window.close();
-						window.clear();
+						Game game;
 						game.Run();
 					}
 					else if (selectedItem == 1) {
 						window.close();
-						window.clear();
 						Instructions instructions(window.getSize().x, window.getSize().y);
 						instructions.run();
 					}

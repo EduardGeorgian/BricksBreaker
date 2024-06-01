@@ -111,12 +111,12 @@ int PauseScreen::GetPressedItem()
 	return selectedItemIndex;
 }
 
-void PauseScreen::run(sf::RenderWindow& gameWindow)
+void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
 {
 	pauseWindow.create(sf::VideoMode(800, 600), "Pause", sf::Style::Close | sf::Style::Titlebar);
-	Menu menu(pauseWindow.getSize().x, pauseWindow.getSize().y);
+	
 
-	while (pauseWindow.isOpen())
+	while (pauseWindow.isOpen()&& isPaused)
 	{
 		sf::Event event;
 		while (pauseWindow.pollEvent(event))
@@ -140,12 +140,15 @@ void PauseScreen::run(sf::RenderWindow& gameWindow)
 					switch (GetPressedItem())
 					{
 					case 1:
-						pauseWindow.close();
+						isPaused = false;
 						break;
 					case 2:
 						pauseWindow.close();
 						gameWindow.close();
-						menu.run();
+						{
+							Menu menu(pauseWindow.getSize().x, pauseWindow.getSize().y);
+							menu.run();
+						}
 						break;
 					case 3:
 						pauseWindow.close();

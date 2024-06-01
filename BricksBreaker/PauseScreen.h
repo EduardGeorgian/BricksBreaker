@@ -15,7 +15,7 @@ private:
 	int selectedItemIndex;
 public:
 	PauseScreen(float width, float height);
-	void run(sf::RenderWindow& gameWindow);
+	void run(sf::RenderWindow& gameWindow, bool isPaused);
 	void draw(sf::RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
