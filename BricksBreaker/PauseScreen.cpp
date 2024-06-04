@@ -111,12 +111,66 @@ int PauseScreen::GetPressedItem()
 	return selectedItemIndex;
 }
 
-void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
+//void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
+//{
+//	pauseWindow.create(sf::VideoMode(800, 600), "Pause", sf::Style::Close | sf::Style::Titlebar);
+//	
+//
+//	while (pauseWindow.isOpen()&& isPaused)
+//	{
+//		sf::Event event;
+//		while (pauseWindow.pollEvent(event))
+//		{
+//			if (event.type == sf::Event::Closed)
+//			{
+//				pauseWindow.close();
+//			}
+//			if (event.type == sf::Event::KeyPressed)
+//			{
+//				if (event.key.code == sf::Keyboard::Up)
+//				{
+//					MoveUp();
+//				}
+//				if (event.key.code == sf::Keyboard::Down)
+//				{
+//					MoveDown();
+//				}
+//				if (event.key.code == sf::Keyboard::Return)
+//				{
+//					switch (GetPressedItem())
+//					{
+//					case 1:
+//						isPaused = false;
+//						break;
+//					case 2:
+//						pauseWindow.close();
+//						gameWindow.close();
+//						{
+//							Menu menu(pauseWindow.getSize().x, pauseWindow.getSize().y);
+//							menu.run();
+//						}
+//						break;
+//					case 3:
+//						pauseWindow.close();
+//						gameWindow.close();
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		pauseWindow.clear();
+//		draw(pauseWindow);
+//		pauseWindow.display();
+//	}
+//}
+
+
+bool PauseScreen::run(sf::RenderWindow& gameWindow)
 {
 	pauseWindow.create(sf::VideoMode(800, 600), "Pause", sf::Style::Close | sf::Style::Titlebar);
-	
+	bool continueGame = false;
 
-	while (pauseWindow.isOpen()&& isPaused)
+	while (pauseWindow.isOpen())
 	{
 		sf::Event event;
 		while (pauseWindow.pollEvent(event))
@@ -124,6 +178,7 @@ void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
 			if (event.type == sf::Event::Closed)
 			{
 				pauseWindow.close();
+				return false;
 			}
 			if (event.type == sf::Event::KeyPressed)
 			{
@@ -140,7 +195,8 @@ void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
 					switch (GetPressedItem())
 					{
 					case 1:
-						isPaused = false;
+						pauseWindow.close();
+						continueGame = true;
 						break;
 					case 2:
 						pauseWindow.close();
@@ -149,11 +205,11 @@ void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
 							Menu menu(pauseWindow.getSize().x, pauseWindow.getSize().y);
 							menu.run();
 						}
-						break;
+						return false;
 					case 3:
 						pauseWindow.close();
 						gameWindow.close();
-						break;
+						return false;
 					}
 				}
 			}
@@ -162,4 +218,5 @@ void PauseScreen::run(sf::RenderWindow& gameWindow, bool isPaused)
 		draw(pauseWindow);
 		pauseWindow.display();
 	}
+	return continueGame;
 }

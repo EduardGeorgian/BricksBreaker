@@ -97,15 +97,82 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 }
 
 
+//void Game::update(sf::Time deltaTime) {
+//	if (isPaused) {
+//		PauseScreen pauseScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
+//		pauseScreen.run(getWindow(), isPaused);
+//		isPaused = false;
+//		return;
+//	}
+//	if (isGameOver)
+//	{
+//		gameWindow.clear();
+//		gameWindow.close();
+//		LossScreen lossScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
+//		lossScreen.run(gameWindow, isGameOver);
+//		return;
+//	}
+//
+//	sf::Vector2f movement(0.f, 0.f);
+//	if (movingLeft) {
+//		movement.x -= paddleSpeed;
+//	}
+//	if (movingRight) {
+//		movement.x += paddleSpeed;
+//	}
+//
+//	paddle.move(movement * deltaTime.asSeconds());
+//
+//	// make sure the paddle stays in window
+//
+//	if (paddle.getPosition().x < 0.f) {
+//		paddle.setPosition(0.f, paddle.getPosition().y);
+//	}
+//	if (paddle.getPosition().x + paddle.getSize().x > gameWindow.getSize().x) {
+//		paddle.setPosition(gameWindow.getSize().x - paddle.getSize().x, paddle.getPosition().y);
+//	}
+//
+//	ball.move(ballVelocity * deltaTime.asSeconds());
+//
+//	if (ball.getPosition().x < 0.f || ball.getPosition().x + ball.getRadius() * 2 > gameWindow.getSize().x) {
+//		ballVelocity.x = -ballVelocity.x;
+//	}
+//	if (ball.getPosition().y < 0.f) {
+//		ballVelocity.y = -ballVelocity.y;
+//	}
+//
+//	if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds())) {
+//		ballVelocity.y = -ballVelocity.y;
+//		ball.setPosition(ball.getPosition().x, paddle.getPosition().y - ball.getRadius() * 2);
+//	}
+//
+//	for (auto& brick : bricks) {
+//		if (brick.isDestroyed)
+//			continue;
+//
+//		if (ball.getGlobalBounds().intersects(brick.shape.getGlobalBounds())) {
+//			brick.isDestroyed = true;
+//			ballVelocity.y = -ballVelocity.y;
+//		}
+//	}
+//
+//	if (ball.getPosition().y > gameWindow.getSize().y) {
+//		isGameOver = true;
+//	}
+//}
 void Game::update(sf::Time deltaTime) {
 	if (isPaused) {
 		PauseScreen pauseScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
-		pauseScreen.run(getWindow(), isPaused);
-		isPaused = false;
+		if (pauseScreen.run(getWindow())) {
+			isPaused = false;
+		}
+		else {
+			isPaused = true;
+		}
 		return;
 	}
-	if (isGameOver)
-	{
+
+	if (isGameOver) {
 		gameWindow.clear();
 		gameWindow.close();
 		LossScreen lossScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
@@ -132,34 +199,37 @@ void Game::update(sf::Time deltaTime) {
 		paddle.setPosition(gameWindow.getSize().x - paddle.getSize().x, paddle.getPosition().y);
 	}
 
-	ball.move(ballVelocity * deltaTime.asSeconds());
+	if (!isPaused) {
+		ball.move(ballVelocity * deltaTime.asSeconds());
 
-	if (ball.getPosition().x < 0.f || ball.getPosition().x + ball.getRadius() * 2 > gameWindow.getSize().x) {
-		ballVelocity.x = -ballVelocity.x;
-	}
-	if (ball.getPosition().y < 0.f) {
-		ballVelocity.y = -ballVelocity.y;
-	}
-
-	if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds())) {
-		ballVelocity.y = -ballVelocity.y;
-		ball.setPosition(ball.getPosition().x, paddle.getPosition().y - ball.getRadius() * 2);
-	}
-
-	for (auto& brick : bricks) {
-		if (brick.isDestroyed)
-			continue;
-
-		if (ball.getGlobalBounds().intersects(brick.shape.getGlobalBounds())) {
-			brick.isDestroyed = true;
+		if (ball.getPosition().x < 0.f || ball.getPosition().x + ball.getRadius() * 2 > gameWindow.getSize().x) {
+			ballVelocity.x = -ballVelocity.x;
+		}
+		if (ball.getPosition().y < 0.f) {
 			ballVelocity.y = -ballVelocity.y;
 		}
-	}
 
-	if (ball.getPosition().y > gameWindow.getSize().y) {
-		isGameOver = true;
+		if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds())) {
+			ballVelocity.y = -ballVelocity.y;
+			ball.setPosition(ball.getPosition().x, paddle.getPosition().y - ball.getRadius() * 2);
+		}
+
+		for (auto& brick : bricks) {
+			if (brick.isDestroyed)
+				continue;
+
+			if (ball.getGlobalBounds().intersects(brick.shape.getGlobalBounds())) {
+				brick.isDestroyed = true;
+				ballVelocity.y = -ballVelocity.y;
+			}
+		}
+
+		if (ball.getPosition().y > gameWindow.getSize().y) {
+			isGameOver = true;
+		}
 	}
 }
+
 
 
 void Game::render()
