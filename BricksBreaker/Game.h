@@ -5,6 +5,8 @@
 #include <SFML/System.hpp>
 #include "PauseScreen.h"
 #include "LossScreen.h"
+#include <random>
+
 
 class Game {
 private:
@@ -18,11 +20,19 @@ private:
 	sf::RectangleShape paddle;
 	sf::CircleShape ball;
 	sf::Vector2f ballVelocity;
+	sf::Text scoreText;
+	sf::Font font;
+	sf::CircleShape fallingBonus;
+	sf::Vector2f fallingBonusVelocity;
+	int score;
 	float paddleSpeed;
 	bool movingLeft;
 	bool movingRight;
 	bool isPaused;
 	bool isGameOver;
+	bool bonusActive;
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution;
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 	struct Brick {
@@ -37,4 +47,11 @@ public:
 	void Run();
 	void Close();
 	sf::RenderWindow& getWindow();
+	void initScore();
+	void drawScore(sf::RenderWindow& gameWindow);
+	void updateScore();
+	void initFallingBonus();
+	void drawFallingBonus(sf::RenderWindow& gameWindow);
+	void resetFallingBonus();
+	
 };

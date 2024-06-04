@@ -5,7 +5,12 @@
 Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),movingLeft(false),
 	movingRight(false),
 	isPaused(false),
-	isGameOver(false)
+	isGameOver(false),
+	score(0),
+	bonusActive(false),
+	distribution(1, 3),
+	generator(std::random_device()()),
+	fallingBonusVelocity(0.f, 150.f)
 {
 	paddle.setSize(sf::Vector2f(100, 20));
 	paddle.setFillColor(::sf::Color::Red);
@@ -14,6 +19,7 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 	ball.setRadius(10.f);
 	ball.setFillColor(sf::Color::White);
 	ball.setPosition(300, 300);
+
 
 	float brickWidth = 70.f;
 	float brickHeight = 20.f;
@@ -31,10 +37,12 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 			Brick brick;
 			brick.shape.setSize(sf::Vector2f(brickWidth,brickHeight));
 			brick.shape.setFillColor(sf::Color::Blue);
-			brick.shape.setPosition(j*(brickWidth+spacing)+spacing,i*(brickHeight+spacing)+spacing);
+			brick.shape.setPosition(j*(brickWidth+spacing)+spacing,i*(brickHeight+spacing)+5*spacing);
 			bricks.push_back(brick);
 		}
 	}
+
+
 
 }
 
@@ -50,6 +58,10 @@ void Game::Run()
 {
 	initWindow();
     sf::Clock clock;
+	initScore();
+	initFallingBonus();
+
+	
     while (gameWindow.isOpen()) {
         sf::Time deltaTime = clock.restart();
         processEvents();
@@ -161,6 +173,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 //	}
 //}
 void Game::update(sf::Time deltaTime) {
+
 	if (isPaused) {
 		PauseScreen pauseScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
 		if (pauseScreen.run(getWindow())) {
@@ -179,6 +192,8 @@ void Game::update(sf::Time deltaTime) {
 		lossScreen.run(gameWindow, isGameOver);
 		return;
 	}
+
+
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (movingLeft) {
@@ -221,6 +236,28 @@ void Game::update(sf::Time deltaTime) {
 			if (ball.getGlobalBounds().intersects(brick.shape.getGlobalBounds())) {
 				brick.isDestroyed = true;
 				ballVelocity.y = -ballVelocity.y;
+				updateScore();
+				if (!bonusActive && (distribution(generator) == 1))
+				{
+					bonusActive = true;
+					fallingBonus.setPosition(brick.shape.getPosition());
+				}
+			}
+		}
+
+		if (fallingBonus.getPosition().y + fallingBonus.getRadius() * 2 > gameWindow.getSize().y)
+		{
+			resetFallingBonus();
+		}
+
+		if (bonusActive)
+		{
+			fallingBonus.move(fallingBonusVelocity * deltaTime.asSeconds());
+
+			if (fallingBonus.getGlobalBounds().intersects(paddle.getGlobalBounds()))
+			{
+				updateScore();
+				resetFallingBonus();
 			}
 		}
 
@@ -236,7 +273,9 @@ void Game::render()
 {
 	gameWindow.clear();
 	gameWindow.draw(paddle);
-	gameWindow.draw(ball);
+	gameWindow.draw(ball);;
+	
+	
 
 	for (const auto& brick : bricks)
 	{
@@ -245,6 +284,10 @@ void Game::render()
 			gameWindow.draw(brick.shape);
 		}
 	}
+	if(bonusActive)
+	drawFallingBonus(gameWindow);
+
+	drawScore(gameWindow);
 	gameWindow.display();
 }
 
@@ -256,3 +299,48 @@ void Game::Close()
 {
 	gameWindow.close();
 }
+
+
+void Game::initScore()
+{
+	if (!font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf"))
+	{
+		std::cout << "Error loading font\n";
+	}
+	scoreText.setFont(font);
+	scoreText.setCharacterSize(24);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(10, 10);
+	score = 0;
+}
+
+void Game::drawScore(sf::RenderWindow& gameWindow)
+{
+	scoreText.setString("Score: " + std::to_string(score));
+	gameWindow.draw(scoreText);
+}
+
+void Game::updateScore()
+{
+	score += 10;
+}
+
+
+void Game::initFallingBonus()
+{
+	fallingBonus.setRadius(10.f);
+	fallingBonus.setFillColor(sf::Color::Green);
+	resetFallingBonus();
+}
+
+void Game::drawFallingBonus(sf::RenderWindow& gameWindow)
+{
+	gameWindow.draw(fallingBonus);
+}
+
+void Game::resetFallingBonus()
+{
+	bonusActive = false;
+	fallingBonus.setPosition(-100, -100);
+}
+
