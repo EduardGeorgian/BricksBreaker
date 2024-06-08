@@ -24,6 +24,7 @@ Menu::Menu(float width, float height)
 	menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3)); 
 
 	selectedItemIndex = 0; // Set the default selected item to 0
+	setSound();
 }	
 
 void Menu::draw(sf::RenderWindow& window)
@@ -77,9 +78,13 @@ void Menu::run()
 			if (event.type == sf::Event::KeyPressed) {
 				if (event.key.code == sf::Keyboard::Up) {
 					menu.MoveUp();
+					playSound();
+					
 				}
 				else if (event.key.code == sf::Keyboard::Down) {
 					menu.MoveDown();
+					playSound();
+					
 				}
 				else if (event.key.code == sf::Keyboard::Return) {
 					int selectedItem = menu.GetPressedItem();
@@ -105,3 +110,25 @@ void Menu::run()
 		window.display();
 	}
 }
+
+
+void Menu::setSound()
+{
+	if (!buffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/MenuSound.wav"))
+	{
+		std::cout << "Error loading sound" << std::endl;
+	}
+	sound.setBuffer(buffer);
+	sound.setVolume(50);
+}
+
+void Menu::playSound()
+{
+	sound.play();
+}
+
+void Menu::stopSound()
+{
+	sound.stop();
+}
+

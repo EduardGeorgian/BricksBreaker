@@ -20,7 +20,7 @@ LossScreen::LossScreen(float width, float height)
 	PlayAgain.setPosition(sf::Vector2f(width / 2 - 100, height / 2 - 100));
 
 	exitText.setFont(font);
-	exitText.setString("EXIT");
+	exitText.setString("Exit");
 	exitText.setCharacterSize(30);
 	exitText.setFillColor(sf::Color::White);
 	exitText.setPosition(sf::Vector2f(width / 2 - 100, height / 2 ));

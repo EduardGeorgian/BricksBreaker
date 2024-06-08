@@ -42,7 +42,7 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 		}
 	}
 
-
+	setSounds();
 
 }
 
@@ -227,6 +227,7 @@ void Game::update(sf::Time deltaTime) {
 		if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds())) {
 			ballVelocity.y = -ballVelocity.y;
 			ball.setPosition(ball.getPosition().x, paddle.getPosition().y - ball.getRadius() * 2);
+			playPaddleHitSound();
 		}
 
 		for (auto& brick : bricks) {
@@ -237,6 +238,7 @@ void Game::update(sf::Time deltaTime) {
 				brick.isDestroyed = true;
 				ballVelocity.y = -ballVelocity.y;
 				updateScore();
+				playBrickHitSound();
 				if (!bonusActive && (distribution(generator) == 1))
 				{
 					bonusActive = true;
@@ -256,6 +258,7 @@ void Game::update(sf::Time deltaTime) {
 
 			if (fallingBonus.getGlobalBounds().intersects(paddle.getGlobalBounds()))
 			{
+				playBonusHitSound();
 				updateScore();
 				resetFallingBonus();
 			}
@@ -342,5 +345,43 @@ void Game::resetFallingBonus()
 {
 	bonusActive = false;
 	fallingBonus.setPosition(-100, -100);
+}
+
+
+void Game::setSounds()
+{
+	if (!paddleHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/PaddleHitSound.wav"))
+	{
+		std::cout << "Error loading paddle hit sound\n";
+	}
+	if (!brickHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/BrickHitSound.mp3"))
+	{
+		std::cout << "Error loading brick hit sound\n";
+	}
+	if (!bonusHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/BonusHitSound.mp3"))
+	{
+		std::cout << "Error loading bonus hit sound\n";
+	}
+	paddleHitSound.setBuffer(paddleHitBuffer);
+	brickHitSound.setBuffer(brickHitBuffer);
+	bonusHitSound.setBuffer(bonusHitBuffer);
+	paddleHitSound.setVolume(50);
+	brickHitSound.setVolume(50);
+	bonusHitSound.setVolume(50);
+}
+
+void Game::playPaddleHitSound()
+{
+	paddleHitSound.play();
+}
+
+void Game::playBrickHitSound()
+{
+	brickHitSound.play();
+}
+
+void Game::playBonusHitSound()
+{
+	bonusHitSound.play();
 }
 

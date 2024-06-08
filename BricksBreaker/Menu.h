@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Game.h"
 #include "Instructions.h"
+#include <SFML/Audio.hpp>
 
 
 
@@ -14,6 +15,8 @@ private:
 	int selectedItemIndex;
 	sf::Font font;
 	sf::Text menu[MAX_NUMBER_OF_ITEMS];
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
 public:
 	Menu(float width, float height);
 	void run();
@@ -21,4 +24,8 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int GetPressedItem();
+	void setSound();
+	void playSound();
+	void stopSound();
+
 };

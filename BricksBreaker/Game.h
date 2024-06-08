@@ -1,8 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 #include "PauseScreen.h"
 #include "LossScreen.h"
 #include <random>
@@ -24,6 +23,12 @@ private:
 	sf::Font font;
 	sf::CircleShape fallingBonus;
 	sf::Vector2f fallingBonusVelocity;
+	sf::SoundBuffer paddleHitBuffer;
+	sf::SoundBuffer brickHitBuffer;
+	sf::SoundBuffer bonusHitBuffer;
+	sf::Sound paddleHitSound;
+	sf::Sound brickHitSound;
+	sf::Sound bonusHitSound;
 	int score;
 	float paddleSpeed;
 	bool movingLeft;
@@ -53,5 +58,9 @@ public:
 	void initFallingBonus();
 	void drawFallingBonus(sf::RenderWindow& gameWindow);
 	void resetFallingBonus();
+	void setSounds();
+	void playPaddleHitSound();
+	void playBrickHitSound();
+	void playBonusHitSound();
 	
 };
