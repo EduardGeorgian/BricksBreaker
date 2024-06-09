@@ -12,12 +12,26 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 	generator(std::random_device()()),
 	fallingBonusVelocity(0.f, 150.f)
 {
+	if (!paddleTexture.loadFromFile("Resources/Textures/PaddleTexture.jpg"))
+	{
+		std::cout << "Error loading paddle texture\n";
+	}
+	paddleTexture.setSmooth(true);
+	paddle.setTexture(&paddleTexture);
 	paddle.setSize(sf::Vector2f(100, 20));
-	paddle.setFillColor(::sf::Color::Red);
+	/*paddle.setFillColor(::sf::Color::Red);*/
 	paddle.setPosition(350, 550);
 
-	ball.setRadius(10.f);
-	ball.setFillColor(sf::Color::White);
+
+	if (!ballTexture.loadFromFile("Resources/Textures/BallTexture.jpg"))
+	{
+		std::cout << "Error loading ball texture\n";
+	}
+	ballTexture.setSmooth(true);
+	ballTexture.setRepeated(true);
+	ball.setTexture(&ballTexture);
+	ball.setRadius(15.f);
+	/*ball.setFillColor(sf::Color::White);*/
 	ball.setPosition(300, 300);
 
 
@@ -30,13 +44,21 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 
 	//create bricks
 
+	if (!brickTexture.loadFromFile("Resources/Textures/BrickTexture.jpg"))
+	{
+		std::cout << "Error loading brick texture\n";
+	}
+	brickTexture.setSmooth(true);
+	brickTexture.setRepeated(true);
+
 	for (int i = 0; i < numRows; i++)
 	{
 		for (int j = 0; j < numBricksPerRow; j++)
 		{
 			Brick brick;
+			brick.shape.setTexture(&brickTexture);
 			brick.shape.setSize(sf::Vector2f(brickWidth,brickHeight));
-			brick.shape.setFillColor(sf::Color::Blue);
+			/*brick.shape.setFillColor(sf::Color::Blue);*/
 			brick.shape.setPosition(j*(brickWidth+spacing)+spacing,i*(brickHeight+spacing)+5*spacing);
 			bricks.push_back(brick);
 		}
@@ -331,8 +353,14 @@ void Game::updateScore()
 
 void Game::initFallingBonus()
 {
-	fallingBonus.setRadius(10.f);
-	fallingBonus.setFillColor(sf::Color::Green);
+	if (!fallingBonusTexture.loadFromFile("Resources/Textures/BonusTexture.png"))
+	{
+		std::cout << "Error loading bonus texture\n";
+	}
+	fallingBonusTexture.setSmooth(true);
+	fallingBonus.setTexture(&fallingBonusTexture);
+	fallingBonus.setRadius(20.f);
+	/*fallingBonus.setFillColor(sf::Color::Green);*/
 	resetFallingBonus();
 }
 
@@ -384,4 +412,5 @@ void Game::playBonusHitSound()
 {
 	bonusHitSound.play();
 }
+
 

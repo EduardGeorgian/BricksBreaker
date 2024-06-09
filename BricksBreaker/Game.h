@@ -15,12 +15,14 @@ private:
 	void update(sf::Time deltaTime);
 	void render();
 
-
+	sf::Texture paddleTexture;
 	sf::RectangleShape paddle;
+	sf::Texture ballTexture;
 	sf::CircleShape ball;
 	sf::Vector2f ballVelocity;
 	sf::Text scoreText;
 	sf::Font font;
+	sf::Texture fallingBonusTexture;
 	sf::CircleShape fallingBonus;
 	sf::Vector2f fallingBonusVelocity;
 	sf::SoundBuffer paddleHitBuffer;
@@ -39,7 +41,9 @@ private:
 	std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution;
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	
 
+	sf::Texture brickTexture;
 	struct Brick {
 		sf::RectangleShape shape;
 		bool isDestroyed = false;
