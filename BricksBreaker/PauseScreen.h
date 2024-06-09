@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "Menu.h"
+#include <SFML/Audio.hpp>
 
 class PauseScreen
 {
@@ -12,6 +13,8 @@ private:
 	sf::Text resumeText;
 	sf::Text menuText;
 	sf::Text exitText;
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
 	int selectedItemIndex;
 public:
 	PauseScreen(float width, float height);
@@ -20,6 +23,8 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int GetPressedItem();
+	void setSound();
+	void playSound();
 
 };
 

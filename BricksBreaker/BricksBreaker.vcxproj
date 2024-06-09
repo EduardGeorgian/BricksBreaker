@@ -146,9 +146,7 @@
     <ClInclude Include="LossScreen.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PauseScreen.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="Fonturi\arial.TTF" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

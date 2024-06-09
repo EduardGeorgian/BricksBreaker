@@ -3,7 +3,7 @@
 
 Menu::Menu(float width, float height)
 {
-	if (!font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf"))
+	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
 		std::cout << "Error loading font" << std::endl;
 	}
@@ -114,7 +114,7 @@ void Menu::run()
 
 void Menu::setSound()
 {
-	if (!buffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/MenuSound.wav"))
+	if (!buffer.loadFromFile("Resources/Sounds/MenuSound.wav"))
 	{
 		std::cout << "Error loading sound" << std::endl;
 	}

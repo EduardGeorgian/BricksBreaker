@@ -3,7 +3,7 @@
 
 PauseScreen::PauseScreen(float width, float height)
 {
-	if (!font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf"))
+	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
 		std::cout << "Error loading font" << std::endl;
 	}
@@ -32,6 +32,8 @@ PauseScreen::PauseScreen(float width, float height)
 	exitText.setPosition(sf::Vector2f(width / 2 - 100, height / 2 + 100));
 
 	selectedItemIndex = 1;
+
+	setSound();	
 }
 
 void PauseScreen::draw(sf::RenderWindow& window)
@@ -184,10 +186,12 @@ bool PauseScreen::run(sf::RenderWindow& gameWindow)
 			{
 				if (event.key.code == sf::Keyboard::Up)
 				{
+					playSound();
 					MoveUp();
 				}
 				if (event.key.code == sf::Keyboard::Down)
 				{
+					playSound();
 					MoveDown();
 				}
 				if (event.key.code == sf::Keyboard::Return)
@@ -219,4 +223,22 @@ bool PauseScreen::run(sf::RenderWindow& gameWindow)
 		pauseWindow.display();
 	}
 	return continueGame;
+}
+
+
+
+void PauseScreen::setSound()
+{
+	if (!buffer.loadFromFile("Resources/Sounds/MenuSound.wav"))
+	{
+		std::cout << "Error loading sound" << std::endl;
+	}
+	sound.setBuffer(buffer);
+	sound.setVolume(50);
+}
+
+
+void::PauseScreen::playSound()
+{
+	sound.play();
 }

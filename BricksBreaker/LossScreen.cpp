@@ -3,7 +3,7 @@
 
 LossScreen::LossScreen(float width, float height)
 {
-	if (!font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf"))
+	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
 		std::cout << "Error loading font" << std::endl;
 	}

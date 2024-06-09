@@ -306,7 +306,7 @@ void Game::Close()
 
 void Game::initScore()
 {
-	if (!font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf"))
+	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
 		std::cout << "Error loading font\n";
 	}
@@ -350,15 +350,15 @@ void Game::resetFallingBonus()
 
 void Game::setSounds()
 {
-	if (!paddleHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/PaddleHitSound.wav"))
+	if (!paddleHitBuffer.loadFromFile("Resources/Sounds/PaddleHitSound.wav"))
 	{
 		std::cout << "Error loading paddle hit sound\n";
 	}
-	if (!brickHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/BrickHitSound.mp3"))
+	if (!brickHitBuffer.loadFromFile("Resources/Sounds/BrickHitSound.mp3"))
 	{
 		std::cout << "Error loading brick hit sound\n";
 	}
-	if (!bonusHitBuffer.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Sounds/BonusHitSound.mp3"))
+	if (!bonusHitBuffer.loadFromFile("Resources/Sounds/BonusHitSound.mp3"))
 	{
 		std::cout << "Error loading bonus hit sound\n";
 	}
