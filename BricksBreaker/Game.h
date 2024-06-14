@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include "PauseScreen.h"
 #include "LossScreen.h"
+#include "WinScreen.h"
 #include <random>
 
 
@@ -37,10 +38,12 @@ private:
 	bool movingRight;
 	bool isPaused;
 	bool isGameOver;
+	bool isWin;
 	bool bonusActive;
 	std::default_random_engine generator;
 	std::uniform_int_distribution<int> distribution;
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	int totalBricks;
 	
 
 	sf::Texture brickTexture;
@@ -66,5 +69,6 @@ public:
 	void playPaddleHitSound();
 	void playBrickHitSound();
 	void playBonusHitSound();
+	void bricksGenerator();
 	
 };

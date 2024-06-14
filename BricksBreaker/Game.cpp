@@ -6,6 +6,7 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 	movingRight(false),
 	isPaused(false),
 	isGameOver(false),
+	isWin(false),
 	score(0),
 	bonusActive(false),
 	distribution(1, 3),
@@ -38,9 +39,9 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 	float brickWidth = 70.f;
 	float brickHeight = 20.f;
 	float spacing = 10.f;
-	int numBricksPerRow = 10;
-	int numRows=5;
-
+	int numBricksPerRow = 1;
+	int numRows=1;
+	totalBricks = numBricksPerRow * numRows;
 
 	//create bricks
 
@@ -64,9 +65,12 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 		}
 	}
 
+	
 	setSounds();
 
 }
+
+
 
 
 void Game::initWindow()
@@ -215,7 +219,24 @@ void Game::update(sf::Time deltaTime) {
 		return;
 	}
 
+	if (isWin)
+	{
+		WinScreen winScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
+		if(winScreen.run(gameWindow, isWin)==true)
+		{
+			isWin = false;
+			gameWindow.close();
+			Game game;
+			game.Run();
+		}
+		return;
+	}
 
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	{
+		isWin = true;
+	}
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (movingLeft) {
@@ -258,6 +279,11 @@ void Game::update(sf::Time deltaTime) {
 
 			if (ball.getGlobalBounds().intersects(brick.shape.getGlobalBounds())) {
 				brick.isDestroyed = true;
+				totalBricks--;
+				if (totalBricks == 0)
+				{
+					isWin = true;
+				}
 				ballVelocity.y = -ballVelocity.y;
 				updateScore();
 				playBrickHitSound();
