@@ -4,7 +4,7 @@
 Instructions::Instructions(float width, float height)
 {
 	instructionsWindow.create(sf::VideoMode(width, height), "Instructions", sf::Style::Close | sf::Style::Titlebar);
-	font.loadFromFile("D:/C++Games/BricksBreaker/BricksBreaker/Fonturi/arial.ttf");
+	font.loadFromFile("Resources/Fonturi/arial.ttf");
 	instructions.setFont(font);
 	instructions.setString("Instructions:\n\n"
 		"1. Use the paddle to bounce the ball and break the bricks.\n"

@@ -39,8 +39,8 @@ Game::Game():paddle(),ball(),ballVelocity(200.f,200.f),paddleSpeed(400.f),moving
 	float brickWidth = 70.f;
 	float brickHeight = 20.f;
 	float spacing = 10.f;
-	int numBricksPerRow = 1;
-	int numRows=1;
+	int numBricksPerRow = 10;
+	int numRows=5;
 	totalBricks = numBricksPerRow * numRows;
 
 	//create bricks
