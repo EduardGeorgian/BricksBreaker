@@ -84,7 +84,7 @@ void Game::Run()
 {
 	initWindow();
     sf::Clock clock;
-	initScore();
+	initScore(score);
 	initFallingBonus();
 
 	
@@ -130,7 +130,11 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	}
 	else if (key == sf::Keyboard::P && isPressed)
 	{
-		isPaused = !isPaused; //inital isPaused este 0
+		isPaused = !isPaused;//inital isPaused este 0
+		prevBallSpeed = ballVelocity;
+		prevScore = this->score;
+		ballVelocity = { 0.f,0.f };
+		
 	}
 }
 
@@ -201,7 +205,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 void Game::update(sf::Time deltaTime) {
 
 	if (isPaused) {
-		PauseScreen pauseScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y);
+		PauseScreen pauseScreen(this->gameWindow.getSize().x, this->gameWindow.getSize().y, this);
 		if (pauseScreen.run(getWindow())) {
 			isPaused = false;
 		}
@@ -352,7 +356,7 @@ void Game::Close()
 }
 
 
-void Game::initScore()
+void Game::initScore(int initialScore)
 {
 	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
@@ -362,7 +366,7 @@ void Game::initScore()
 	scoreText.setCharacterSize(24);
 	scoreText.setFillColor(sf::Color::White);
 	scoreText.setPosition(10, 10);
-	score = 0;
+	score = initialScore;
 }
 
 void Game::drawScore(sf::RenderWindow& gameWindow)
@@ -437,6 +441,15 @@ void Game::playBrickHitSound()
 void Game::playBonusHitSound()
 {
 	bonusHitSound.play();
+}
+
+void Game::resumeGame()
+{
+	isPaused = false;
+	ballVelocity = prevBallSpeed;
+	this->score = prevScore;
+	this->Run();
+	
 }
 
 

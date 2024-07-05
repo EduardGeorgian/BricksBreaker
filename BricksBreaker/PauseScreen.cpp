@@ -1,7 +1,7 @@
 #include "PauseScreen.h"
 
 
-PauseScreen::PauseScreen(float width, float height)
+PauseScreen::PauseScreen(float width, float height, Game* gamePointer)
 {
 	if (!font.loadFromFile("Resources/Fonturi/arial.ttf"))
 	{
@@ -32,6 +32,8 @@ PauseScreen::PauseScreen(float width, float height)
 	exitText.setPosition(sf::Vector2f(width / 2 - 100, height / 2 + 100));
 
 	selectedItemIndex = 1;
+	this->game = gamePointer;
+
 
 	setSound();	
 }
@@ -199,6 +201,7 @@ bool PauseScreen::run(sf::RenderWindow& gameWindow)
 					switch (GetPressedItem())
 					{
 					case 1:
+						game->resumeGame();
 						pauseWindow.close();
 						continueGame = true;
 						break;
@@ -238,7 +241,7 @@ void PauseScreen::setSound()
 }
 
 
-void::PauseScreen::playSound()
+void PauseScreen::playSound()
 {
 	sound.play();
 }

@@ -54,12 +54,13 @@ private:
 	std::vector<Brick> bricks;
 
 public:
-	
+	sf::Vector2f prevBallSpeed;
+	int prevScore;
 	Game();
 	void Run();
 	void Close();
 	sf::RenderWindow& getWindow();
-	void initScore();
+	void initScore(int initialScore);
 	void drawScore(sf::RenderWindow& gameWindow);
 	void updateScore();
 	void initFallingBonus();
@@ -69,6 +70,6 @@ public:
 	void playPaddleHitSound();
 	void playBrickHitSound();
 	void playBonusHitSound();
-	void bricksGenerator();
+	void resumeGame();
 	
 };

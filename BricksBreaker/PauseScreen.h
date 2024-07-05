@@ -1,8 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Game.h"
+
 #include "Menu.h"
 #include <SFML/Audio.hpp>
+#include <functional>
+
+class Game;
 
 class PauseScreen
 {
@@ -16,8 +19,11 @@ private:
 	sf::SoundBuffer buffer;
 	sf::Sound sound;
 	int selectedItemIndex;
+	Game* game;
+
 public:
-	PauseScreen(float width, float height);
+	
+	PauseScreen(float width, float height, Game* gamePointer);
 	bool run(sf::RenderWindow& gameWindow);
 	void draw(sf::RenderWindow& window);
 	void MoveUp();
@@ -26,5 +32,6 @@ public:
 	void setSound();
 	void playSound();
 
+	
 };
 
